@@ -14,8 +14,15 @@ public class PermissionEntity {
     @Id
     private UUID id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "target")
+    private String target;
+
+    @Column(name = "privilege")
+    private String privilege;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "service_id")
+    private ServiceEntity service;
 
     @Column(name = "description")
     private String description;

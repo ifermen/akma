@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: db
--- Tiempo de generación: 26-08-2026 a las 12:54:12
+-- Tiempo de generación: 26-08-2026 a las 21:54:22
 -- Versión del servidor: 8.1.0
 -- Versión de PHP: 8.2.27
 
@@ -29,10 +29,10 @@ USE `akma`;
 -- Estructura de tabla para la tabla `KEY`
 --
 
-DROP TABLE IF EXISTS `KEY`;
 CREATE TABLE `KEY` (
   `id` binary(16) NOT NULL,
   `name` varchar(100) NOT NULL,
+  `service_id` binary(16) NOT NULL,
   `user_id` binary(16) NOT NULL,
   `key_hash` varchar(255) NOT NULL,
   `key_prefix` varchar(255) NOT NULL,
@@ -49,7 +49,6 @@ CREATE TABLE `KEY` (
 -- Estructura de tabla para la tabla `KEY_PERMISSION`
 --
 
-DROP TABLE IF EXISTS `KEY_PERMISSION`;
 CREATE TABLE `KEY_PERMISSION` (
   `key_id` binary(16) NOT NULL,
   `permission_id` binary(16) NOT NULL
@@ -61,24 +60,24 @@ CREATE TABLE `KEY_PERMISSION` (
 -- Estructura de tabla para la tabla `PERMISSION`
 --
 
-DROP TABLE IF EXISTS `PERMISSION`;
 CREATE TABLE `PERMISSION` (
   `id` binary(16) NOT NULL,
-  `name` varchar(100) NOT NULL,
+  `target` varchar(100) NOT NULL,
+  `privilege` varchar(100) NOT NULL,
+  `service_id` binary(16) NOT NULL,
   `description` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `USER`
+-- Estructura de tabla para la tabla `SERVICE`
 --
 
-DROP TABLE IF EXISTS `USER`;
-CREATE TABLE `USER` (
+CREATE TABLE `SERVICE` (
   `id` binary(16) NOT NULL,
-  `created_at` date NOT NULL,
-  `updated_at` date NOT NULL
+  `name` varchar(100) NOT NULL,
+  `description` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
@@ -90,8 +89,7 @@ CREATE TABLE `USER` (
 --
 ALTER TABLE `KEY`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `key_hash` (`key_hash`),
-  ADD KEY `FK_user` (`user_id`);
+  ADD KEY `FK_KEY_SERVICE` (`service_id`);
 
 --
 -- Indices de la tabla `KEY_PERMISSION`
@@ -104,12 +102,13 @@ ALTER TABLE `KEY_PERMISSION`
 -- Indices de la tabla `PERMISSION`
 --
 ALTER TABLE `PERMISSION`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_PERMISSION_SERVICE` (`service_id`);
 
 --
--- Indices de la tabla `USER`
+-- Indices de la tabla `SERVICE`
 --
-ALTER TABLE `USER`
+ALTER TABLE `SERVICE`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -120,7 +119,7 @@ ALTER TABLE `USER`
 -- Filtros para la tabla `KEY`
 --
 ALTER TABLE `KEY`
-  ADD CONSTRAINT `FK_user` FOREIGN KEY (`user_id`) REFERENCES `USER` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `FK_KEY_SERVICE` FOREIGN KEY (`service_id`) REFERENCES `SERVICE` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `KEY_PERMISSION`
@@ -128,6 +127,12 @@ ALTER TABLE `KEY`
 ALTER TABLE `KEY_PERMISSION`
   ADD CONSTRAINT `FK_Key` FOREIGN KEY (`key_id`) REFERENCES `KEY` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Permission` FOREIGN KEY (`permission_id`) REFERENCES `PERMISSION` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `PERMISSION`
+--
+ALTER TABLE `PERMISSION`
+  ADD CONSTRAINT `FK_PERMISSION_SERVICE` FOREIGN KEY (`service_id`) REFERENCES `SERVICE` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
