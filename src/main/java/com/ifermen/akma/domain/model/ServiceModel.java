@@ -1,14 +1,11 @@
 package com.ifermen.akma.domain.model;
 
-import com.ifermen.akma.infraestructure.jpa.entity.KeyEntity;
-import com.ifermen.akma.infraestructure.jpa.entity.PermissionEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import lombok.Data;
 
 import java.util.List;
 import java.util.UUID;
 
+@Data
 public class ServiceModel {
 
     private UUID id;

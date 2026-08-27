@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "KEY")
+@Table(name = "API_KEY")
 @Data
 public class KeyEntity {
     @Id
@@ -39,10 +39,10 @@ public class KeyEntity {
     @Column(name = "last_used_at")
     private LocalDateTime lastUsedAt;
 
-    @Column(name = "expire_at")
+    @Column(name = "expires_at")
     private LocalDateTime expireAt;
 
-    @Column(name = "revoke_at")
+    @Column(name = "revoked_at")
     private LocalDateTime revokeAt;
 
     @OneToMany(mappedBy = "key")
