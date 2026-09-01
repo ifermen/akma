@@ -17,4 +17,8 @@ public class ServiceModel {
     private List<KeyModel> keys;
 
     private List<PermissionModel> permissions;
+
+    public void generateRandomId(){
+        this.id = UUID.randomUUID();
+    }
 }
