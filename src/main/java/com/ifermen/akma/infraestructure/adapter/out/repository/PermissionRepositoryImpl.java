@@ -1,5 +1,6 @@
 package com.ifermen.akma.infraestructure.adapter.out.repository;
 
+import com.ifermen.akma.application.exception.NotFoundException;
 import com.ifermen.akma.application.port.out.repository.PermissionRepository;
 import com.ifermen.akma.domain.model.PermissionModel;
 import com.ifermen.akma.infraestructure.jpa.entity.PermissionEntity;
@@ -40,5 +41,15 @@ public class PermissionRepositoryImpl implements PermissionRepository {
         List<PermissionEntity> permissionEntities = this.permissionJpaRepository.findByServiceId(serviceId);
 
         return permissionEntities.stream().map(permissionMapper::toPermissionModel).toList();
+    }
+
+    @Override
+    public PermissionModel findById(UUID serviceId){
+        PermissionEntity permissionEntity =
+                this.permissionJpaRepository.findById(serviceId).orElseThrow(
+                        () -> new NotFoundException("Permission not found")
+                );
+
+        return this.permissionMapper.toPermissionModel(permissionEntity);
     }
 }

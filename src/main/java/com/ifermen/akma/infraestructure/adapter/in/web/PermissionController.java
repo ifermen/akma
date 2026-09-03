@@ -2,6 +2,7 @@ package com.ifermen.akma.infraestructure.adapter.in.web;
 
 import com.ifermen.akma.application.command.permission.CreatePermissionCommand;
 import com.ifermen.akma.application.port.in.permission.CreatePermissionUseCase;
+import com.ifermen.akma.application.port.in.permission.GetPermissionUseCase;
 import com.ifermen.akma.application.port.in.permission.ListPermissionUseCase;
 import com.ifermen.akma.domain.model.PermissionModel;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.CreatePermissionRequest;
@@ -26,6 +27,7 @@ public class PermissionController implements PermissionControllerDoc {
     private PermissionMapper permissionMapper;
     private CreatePermissionUseCase createPermissionUseCase;
     private ListPermissionUseCase listPermissionUseCase;
+    private GetPermissionUseCase getPermissionUseCase;
 
     @PostMapping("/{idService}")
     @Override
@@ -52,5 +54,16 @@ public class PermissionController implements PermissionControllerDoc {
                 permissionModelList.stream().map(permissionMapper::toPermissionResponse).toList();
 
         return ResponseEntity.ok(permissionResponseList);
+    }
+
+    @GetMapping("/{idService}/{idPermission}")
+    @Override
+    public ResponseEntity<PermissionWithServiceResponse> getPermission(
+            @PathVariable("idService") UUID idService,
+            @PathVariable("idPermission") UUID idPermission){
+        PermissionModel permissionModel = this.getPermissionUseCase.execute(idService,idPermission);
+        PermissionWithServiceResponse permission = this.permissionMapper.toPermissionWithServiceResponse(permissionModel);
+
+        return ResponseEntity.ok(permission);
     }
 }

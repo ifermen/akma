@@ -11,4 +11,6 @@ public interface PermissionRepository {
     boolean existPermission(String target, String privilege);
 
     List<PermissionModel> listByService(UUID serviceId);
+
+    PermissionModel findById(UUID serviceId);
 }
