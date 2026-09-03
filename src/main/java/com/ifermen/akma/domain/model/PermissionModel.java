@@ -20,4 +20,8 @@ public class PermissionModel {
     private String description;
 
     private List<KeyPermissionEntity> keyPermissions;
+
+    public void generateRandomId(){
+        this.id = UUID.randomUUID();
+    }
 }

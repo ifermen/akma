@@ -1,6 +1,6 @@
 package com.ifermen.akma.application.usecase.service;
 
-import com.ifermen.akma.application.command.UpdateServiceCommand;
+import com.ifermen.akma.application.command.service.UpdateServiceCommand;
 import com.ifermen.akma.application.exception.ConfilctException;
 import com.ifermen.akma.application.port.in.service.UpdateServiceUseCase;
 import com.ifermen.akma.application.port.out.repository.ServiceRepository;

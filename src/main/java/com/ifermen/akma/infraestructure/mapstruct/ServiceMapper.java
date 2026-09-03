@@ -1,13 +1,14 @@
 package com.ifermen.akma.infraestructure.mapstruct;
 
-import com.ifermen.akma.application.command.CreateServiceCommand;
-import com.ifermen.akma.application.command.UpdateServiceCommand;
+import com.ifermen.akma.application.command.service.CreateServiceCommand;
+import com.ifermen.akma.application.command.service.UpdateServiceCommand;
 import com.ifermen.akma.domain.model.ServiceModel;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.service.CreateServiceRequest;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.service.ServiceResponse;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.service.UpdateServiceRequest;
 import com.ifermen.akma.infraestructure.jpa.entity.ServiceEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ServiceMapper{

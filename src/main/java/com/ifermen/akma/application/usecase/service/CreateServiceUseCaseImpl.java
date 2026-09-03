@@ -1,6 +1,6 @@
 package com.ifermen.akma.application.usecase.service;
 
-import com.ifermen.akma.application.command.CreateServiceCommand;
+import com.ifermen.akma.application.command.service.CreateServiceCommand;
 import com.ifermen.akma.application.exception.ConfilctException;
 import com.ifermen.akma.application.mapper.ServiceMapperApplication;
 import com.ifermen.akma.application.port.in.service.CreateServiceUseCase;
@@ -8,8 +8,6 @@ import com.ifermen.akma.application.port.out.repository.ServiceRepository;
 import com.ifermen.akma.domain.model.ServiceModel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor

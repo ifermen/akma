@@ -1,7 +1,7 @@
 package com.ifermen.akma.application.mapper;
 
-import com.ifermen.akma.application.command.CreateServiceCommand;
-import com.ifermen.akma.application.command.UpdateServiceCommand;
+import com.ifermen.akma.application.command.service.CreateServiceCommand;
+import com.ifermen.akma.application.command.service.UpdateServiceCommand;
 import com.ifermen.akma.domain.model.ServiceModel;
 import org.mapstruct.Mapper;
 
