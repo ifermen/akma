@@ -32,12 +32,10 @@ public interface ServiceControllerDoc {
     })
     ResponseEntity<ServiceResponse> createService(CreateServiceRequest request);
 
-    // Clase auxiliar para Swagger
-    class ListServiceResponse extends ArrayList<ServiceResponse> {}
     @Operation(summary = "Listar Servicios", description = "Lista todos los servicios de la base de datos")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Listado",
-            content = @Content(schema = @Schema(implementation = ListServiceResponse.class)))
+            content = @Content(schema = @Schema(implementation = ServiceResponse[].class)))
     })
     ResponseEntity<List<ServiceResponse>> listServices();
 
