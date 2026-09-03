@@ -2,9 +2,11 @@ package com.ifermen.akma.infraestructure.adapter.in.web;
 
 import com.ifermen.akma.application.command.permission.CreatePermissionCommand;
 import com.ifermen.akma.application.port.in.permission.CreatePermissionUseCase;
+import com.ifermen.akma.application.port.in.permission.ListPermissionUseCase;
 import com.ifermen.akma.domain.model.PermissionModel;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.CreatePermissionRequest;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.PermissionResponse;
+import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.PermissionWithServiceResponse;
 import com.ifermen.akma.infraestructure.apidoc.PermissionControllerDoc;
 import com.ifermen.akma.infraestructure.mapstruct.PermissionMapper;
 import jakarta.validation.Valid;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -22,20 +25,32 @@ public class PermissionController implements PermissionControllerDoc {
 
     private PermissionMapper permissionMapper;
     private CreatePermissionUseCase createPermissionUseCase;
+    private ListPermissionUseCase listPermissionUseCase;
 
     @PostMapping("/{idService}")
     @Override
-    public ResponseEntity<PermissionResponse> createPermission(
+    public ResponseEntity<PermissionWithServiceResponse> createPermission(
             @PathVariable UUID idService,
             @Valid @RequestBody CreatePermissionRequest createPermissionRequest){
         CreatePermissionCommand command = this.permissionMapper.toCreatePermissionCommand(createPermissionRequest);
         command.setServiceId(idService);
 
         PermissionModel permissionModel = this.createPermissionUseCase.execute(command);
-        PermissionResponse permissionResponse = this.permissionMapper.toPermissionResponse(permissionModel);
+        PermissionWithServiceResponse permissionWithServiceResponse = this.permissionMapper.toPermissionWithServiceResponse(permissionModel);
 
-        URI uri = URI.create("/permissions/" + permissionResponse.getId());
+        URI uri = URI.create("/permissions/" + permissionWithServiceResponse.getId());
 
-        return ResponseEntity.created(uri).body(permissionResponse);
+        return ResponseEntity.created(uri).body(permissionWithServiceResponse);
+    }
+
+    @GetMapping("/{idService}")
+    @Override
+    public ResponseEntity<List<PermissionResponse>> listPermission(@PathVariable UUID idService){
+        List<PermissionModel> permissionModelList = this.listPermissionUseCase.execute(idService);
+
+        List<PermissionResponse> permissionResponseList =
+                permissionModelList.stream().map(permissionMapper::toPermissionResponse).toList();
+
+        return ResponseEntity.ok(permissionResponseList);
     }
 }

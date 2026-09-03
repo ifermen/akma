@@ -14,4 +14,7 @@ public interface PermissionJpaRepository extends JpaRepository<PermissionEntity,
     List<PermissionEntity> searchByTargetAndPrivilege(
             @Param("target") String target,
             @Param("privilege") String privilege);
+
+    @Query("SELECT p FROM PermissionEntity p WHERE p.service.id = :serviceId")
+    List<PermissionEntity> findByServiceId(@Param("serviceId") UUID serviceId);
 }

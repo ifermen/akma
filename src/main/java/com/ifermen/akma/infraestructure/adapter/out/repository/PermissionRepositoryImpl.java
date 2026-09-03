@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 @AllArgsConstructor
@@ -32,5 +33,12 @@ public class PermissionRepositoryImpl implements PermissionRepository {
                 this.permissionJpaRepository.searchByTargetAndPrivilege(target,privilege);
 
         return !permissionEntities.isEmpty();
+    }
+
+    @Override
+    public List<PermissionModel> listByService(UUID serviceId){
+        List<PermissionEntity> permissionEntities = this.permissionJpaRepository.findByServiceId(serviceId);
+
+        return permissionEntities.stream().map(permissionMapper::toPermissionModel).toList();
     }
 }
