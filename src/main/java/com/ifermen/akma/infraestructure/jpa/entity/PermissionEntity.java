@@ -14,11 +14,11 @@ public class PermissionEntity {
     @Id
     private UUID id;
 
-    @Column(name = "target")
-    private String target;
+    @Column(name = "url")
+    private String url;
 
-    @Column(name = "privilege")
-    private String privilege;
+    @Column(name = "method")
+    private String method;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id")

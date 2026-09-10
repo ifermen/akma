@@ -11,9 +11,9 @@ public class PermissionModel {
 
     private UUID id;
 
-    private String target;
+    private String url;
 
-    private String privilege;
+    private String method;
 
     private ServiceModel service;
 

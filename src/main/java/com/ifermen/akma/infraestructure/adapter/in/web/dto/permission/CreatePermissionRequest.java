@@ -9,13 +9,13 @@ import lombok.Data;
 public class CreatePermissionRequest {
 
     @TrimmedLength(min = 3,message = "target: 'String must be between 3 and 100 chars.'")
-    @NotBlank(message = "target: 'String must not be blank.'")
-    private String target;
-    @AllowedValues(values = {"READ","CREATE","UPDATE","DELETE"},
+    @NotBlank(message = "url: 'String must not be blank.'")
+    private String url;
+    @AllowedValues(values = {"GET","POST","PUT","DELETE"},
             ignoreCase = true,
-            message = "privilege: 'must be one of the allowed values'")
-    @NotBlank(message = "privilege: 'String must not be blank.'")
-    private String privilege;
+            message = "method: 'must be one of the allowed values (GET,POST,PUT,DELETE)'")
+    @NotBlank(message = "method: 'String must not be blank.'")
+    private String method;
     @TrimmedLength(max = 255, message = "description: 'String must be between 0 and 255 chars.'")
     private String description;
 }

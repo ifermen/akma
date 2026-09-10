@@ -13,8 +13,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface PermissionMapper {
 
-    @Mapping(target = "target", expression = "java(createPermissionRequest.getTarget().toUpperCase())")
-    @Mapping(target = "privilege", expression = "java(createPermissionRequest.getPrivilege().toUpperCase())")
+    @Mapping(target = "method", expression = "java(createPermissionRequest.getMethod().toUpperCase())")
     CreatePermissionCommand toCreatePermissionCommand(CreatePermissionRequest createPermissionRequest);
 
     PermissionEntity toPermissionEntity(PermissionModel permissionModel);

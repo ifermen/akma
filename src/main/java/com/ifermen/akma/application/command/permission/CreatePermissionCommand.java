@@ -7,8 +7,8 @@ import java.util.UUID;
 @Data
 public class CreatePermissionCommand {
 
-    private String target;
-    private String privilege;
+    private String url;
+    private String method;
     private UUID serviceId;
     private String description;
 }

@@ -6,11 +6,11 @@ import lombok.Data;
 import java.util.UUID;
 
 
-@JsonPropertyOrder(value = {"id", "target", "privilege", "description"})
+@JsonPropertyOrder(value = {"id", "url", "method", "description"})
 @Data
 public class PermissionResponse {
     private UUID id;
-    private String target;
-    private String privilege;
+    private String url;
+    private String method;
     private String description;
 }

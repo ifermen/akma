@@ -23,8 +23,8 @@ public class CreatePermissionUseCaseImpl implements CreatePermissionUseCase {
     public PermissionModel execute(CreatePermissionCommand createPermissionCommand){
 
         if(this.permissionRepository.existPermission(
-                createPermissionCommand.getTarget(),
-                createPermissionCommand.getPrivilege())){
+                createPermissionCommand.getUrl(),
+                createPermissionCommand.getMethod())){
             throw new ConfilctException("This permission already exist");
         }
 
