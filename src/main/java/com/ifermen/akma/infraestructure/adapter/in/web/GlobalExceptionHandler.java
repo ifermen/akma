@@ -102,4 +102,19 @@ public class GlobalExceptionHandler {
 
         return ResponseEntity.status(HttpStatus.CONFLICT.value()).body(apiError);
     }
+
+    //500 - Internal Server Error
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<ApiError> handleRuntimeException(RuntimeException ex,HttpServletRequest http){
+        ApiError apiError = ApiError.builder()
+                .status(HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .error("INTERNAL SERVER ERROR")
+                .message(ex.getMessage())
+                .path(http.getRequestURI())
+                .method(http.getMethod())
+                .timestamp(LocalDateTime.now())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR.value()).body(apiError);
+    }
 }

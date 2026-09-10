@@ -1,6 +1,7 @@
 package com.ifermen.akma.domain.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Data
+@Builder
 public class KeyModel {
 
     private UUID id;
@@ -18,7 +20,7 @@ public class KeyModel {
 
     private ServiceModel service;
 
-    private String key_hash;
+    private String keyHash;
 
     private String keyPrefix;
 
@@ -33,4 +35,8 @@ public class KeyModel {
     private LocalDateTime revokeAt;
 
     private List<KeyPermissionModel> keyPermissions;
+
+    public void generateRandomId(){
+        this.id = UUID.randomUUID();
+    }
 }

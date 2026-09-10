@@ -25,7 +25,7 @@ public class KeyEntity {
     private ServiceEntity service;
 
     @Column(name = "key_hash")
-    private String key_hash;
+    private String keyHash;
 
     @Column(name = "key_prefix")
     private String keyPrefix;
