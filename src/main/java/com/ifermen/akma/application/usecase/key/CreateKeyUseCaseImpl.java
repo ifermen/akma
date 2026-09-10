@@ -29,6 +29,7 @@ public class CreateKeyUseCaseImpl implements CreateKeyUseCase {
     private PermissionRepository permissionRepository;
     private KeyRepository keyRepository;
 
+    //TODO: If already exist key with same service and user, revoke the old row
     @Override
     public KeyModel execute(CreateKeyCommand createKeyCommand){
 
@@ -45,7 +46,7 @@ public class CreateKeyUseCaseImpl implements CreateKeyUseCase {
 
         KeyModel keyModel = KeyModel.builder()
                 .name(createKeyCommand.getName())
-                .user(createKeyCommand.getUserId())
+                .userId(createKeyCommand.getUserId())
                 .service(service)
                 .keyHash(keyHash)
                 .keyPrefix(keyPrefix)
@@ -56,7 +57,10 @@ public class CreateKeyUseCaseImpl implements CreateKeyUseCase {
 
         KeyModel created = this.keyRepository.create(keyModel);
 
-        return this.keyRepository.addPermissions(keyModel,permissions);
+        KeyModel createdWithPermission = this.keyRepository.addPermissions(created,permissions);
+        createdWithPermission.setKey(key);
+
+        return createdWithPermission;
     }
 
     private List<PermissionModel> findPermissions(List<UUID> permissionIds){

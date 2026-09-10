@@ -16,9 +16,11 @@ public class KeyModel {
 
     private String name;
 
-    private UUID user;
+    private UUID userId;
 
     private ServiceModel service;
+
+    private String key;
 
     private String keyHash;
 

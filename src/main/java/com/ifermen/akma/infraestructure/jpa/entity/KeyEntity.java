@@ -18,7 +18,7 @@ public class KeyEntity {
     private String name;
 
     @Column(name = "user_id")
-    private UUID user;
+    private UUID userId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id")
