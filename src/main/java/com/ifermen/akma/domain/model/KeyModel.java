@@ -14,7 +14,7 @@ public class KeyModel {
 
     private UUID id;
 
-    private String name;
+    private String env;
 
     private UUID userId;
 

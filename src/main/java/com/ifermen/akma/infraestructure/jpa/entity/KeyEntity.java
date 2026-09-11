@@ -14,8 +14,8 @@ public class KeyEntity {
     @Id
     private UUID id;
 
-    @Column(name = "name")
-    private String name;
+    @Column(name = "env")
+    private String env;
 
     @Column(name = "user_id")
     private UUID userId;

@@ -29,7 +29,7 @@ public class CreateKeyUseCaseImpl implements CreateKeyUseCase {
     private PermissionRepository permissionRepository;
     private KeyRepository keyRepository;
 
-    //TODO: If already exist key with same service and user, revoke the old row
+    //TODO: If already exist a key with same service, env and user, revoke the old one
     @Override
     public KeyModel execute(CreateKeyCommand createKeyCommand){
 
@@ -38,7 +38,9 @@ public class CreateKeyUseCaseImpl implements CreateKeyUseCase {
 
         checkPermissionsFromService(service,permissions);
 
-        String brand = generateBrand(service.getAcronym(),createKeyCommand.getName());
+        String env = createKeyCommand.getEnv().toUpperCase().trim();
+
+        String brand = generateBrand(service.getAcronym(),env);
 
         String secret = createSecret();
 
@@ -49,7 +51,7 @@ public class CreateKeyUseCaseImpl implements CreateKeyUseCase {
         String keyHash = hash(key);
 
         KeyModel keyModel = KeyModel.builder()
-                .name(createKeyCommand.getName())
+                .env(env)
                 .userId(createKeyCommand.getUserId())
                 .service(service)
                 .keyHash(keyHash)
@@ -88,8 +90,8 @@ public class CreateKeyUseCaseImpl implements CreateKeyUseCase {
         return HexFormat.of().formatHex(secretByte);
     }
 
-    private String generateBrand(String serviceAcronym, String name){
-        return serviceAcronym + "_" + name + "_";
+    private String generateBrand(String serviceAcronym, String env){
+        return serviceAcronym + "_" + env + "_";
     }
 
     private String getSecretPrefix(String secret){

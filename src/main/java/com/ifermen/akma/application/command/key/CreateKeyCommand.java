@@ -9,7 +9,7 @@ import java.util.UUID;
 @Data
 public class CreateKeyCommand {
     private UUID serviceId;
-    private String name;
+    private String env;
     private UUID userId;
     private List<UUID> permissions;
     private LocalDateTime expiresAt;

@@ -6,6 +6,7 @@ import com.ifermen.akma.domain.model.KeyModel;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.key.CreateKeyRequest;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.key.KeyResponse;
 import com.ifermen.akma.infraestructure.mapstruct.KeyMapper;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class KeyController {
     private CreateKeyUseCase createKeyUseCase;
 
     @PostMapping("/{serviceId}")
-    public ResponseEntity<KeyResponse> createKey(@PathVariable UUID serviceId, @RequestBody CreateKeyRequest createKeyRequest){
+    public ResponseEntity<KeyResponse> createKey(@PathVariable UUID serviceId,@Valid @RequestBody CreateKeyRequest createKeyRequest){
         CreateKeyCommand command = this.keyMapper.toCreateKeyCommand(createKeyRequest);
         command.setServiceId(serviceId);
 
