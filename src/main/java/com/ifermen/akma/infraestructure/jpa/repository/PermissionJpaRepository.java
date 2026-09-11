@@ -11,10 +11,16 @@ import java.util.UUID;
 public interface PermissionJpaRepository extends JpaRepository<PermissionEntity, UUID> {
 
     @Query("SELECT p FROM PermissionEntity p WHERE p.url = :url AND p.method = :method")
-    List<PermissionEntity> searchByTargetAndPrivilege(
+    List<PermissionEntity> searchByUrlAndMethod(
             @Param("url") String url,
             @Param("method") String method);
 
     @Query("SELECT p FROM PermissionEntity p WHERE p.service.id = :serviceId")
     List<PermissionEntity> findByServiceId(@Param("serviceId") UUID serviceId);
+
+    @Query("SELECT p FROM PermissionEntity p WHERE p.service.id = :serviceId AND p.url = :url AND p.method = :method")
+    List<PermissionEntity> searchFromServiceByUrlAndMethod(
+            @Param("serviceId") UUID serviceId,
+            @Param("url") String url,
+            @Param("method") String method);
 }

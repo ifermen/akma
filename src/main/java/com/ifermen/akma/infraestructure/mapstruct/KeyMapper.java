@@ -1,9 +1,13 @@
 package com.ifermen.akma.infraestructure.mapstruct;
 
-import com.ifermen.akma.application.command.key.CreateKeyCommand;
+import com.ifermen.akma.application.dto.command.key.CreateKeyCommand;
+import com.ifermen.akma.application.dto.query.ValidateRequestQuery;
+import com.ifermen.akma.application.dto.result.ValidateRequestResult;
 import com.ifermen.akma.domain.model.KeyModel;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.key.CreateKeyRequest;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.key.KeyResponse;
+import com.ifermen.akma.infraestructure.adapter.in.web.dto.key.ValidateKeyRequest;
+import com.ifermen.akma.infraestructure.adapter.in.web.dto.key.ValidateKeyResponse;
 import com.ifermen.akma.infraestructure.jpa.entity.KeyEntity;
 import org.mapstruct.Mapper;
 
@@ -17,4 +21,8 @@ public interface KeyMapper {
     KeyEntity toKeyEntity(KeyModel keyModel);
 
     KeyModel toKeyModel(KeyEntity keyEntity);
+
+    ValidateRequestQuery toValidateRequestQuery(ValidateKeyRequest validateKeyRequest);
+
+    ValidateKeyResponse toValidateKeyResponse(ValidateRequestResult validateRequestResult);
 }

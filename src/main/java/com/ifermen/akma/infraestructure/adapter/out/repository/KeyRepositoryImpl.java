@@ -58,4 +58,11 @@ public class KeyRepositoryImpl implements KeyRepository {
         keyModel.setKeyPermissions(createds);
         return keyModel;
     }
+
+    @Override
+    public List<KeyModel> findByPrefix(String prefix){
+        List<KeyEntity> keys = this.keyJpaRepository.findByPrefix(prefix);
+
+        return keys.stream().map(keyMapper::toKeyModel).toList();
+    }
 }

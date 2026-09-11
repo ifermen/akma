@@ -1,6 +1,6 @@
 package com.ifermen.akma.application.usecase.service;
 
-import com.ifermen.akma.application.command.service.CreateServiceCommand;
+import com.ifermen.akma.application.dto.command.service.CreateServiceCommand;
 import com.ifermen.akma.application.exception.ConfilctException;
 import com.ifermen.akma.application.mapper.ServiceMapperApplication;
 import com.ifermen.akma.application.port.in.service.CreateServiceUseCase;

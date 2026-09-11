@@ -1,7 +1,7 @@
 package com.ifermen.akma.infraestructure.mapstruct;
 
 
-import com.ifermen.akma.application.command.permission.CreatePermissionCommand;
+import com.ifermen.akma.application.dto.command.permission.CreatePermissionCommand;
 import com.ifermen.akma.domain.model.PermissionModel;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.CreatePermissionRequest;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.PermissionResponse;

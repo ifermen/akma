@@ -2,6 +2,8 @@ package com.ifermen.akma.infraestructure.jpa.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -9,7 +11,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "API_KEY")
-@Data
+@Getter
+@Setter
 public class KeyEntity {
     @Id
     private UUID id;

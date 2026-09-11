@@ -29,9 +29,9 @@ public class PermissionRepositoryImpl implements PermissionRepository {
     }
 
     @Override
-    public boolean existPermission(String target, String privilege){
+    public boolean existPermission(String url, String method){
         List<PermissionEntity> permissionEntities =
-                this.permissionJpaRepository.searchByTargetAndPrivilege(target,privilege);
+                this.permissionJpaRepository.searchByUrlAndMethod(url,method);
 
         return !permissionEntities.isEmpty();
     }
@@ -49,6 +49,19 @@ public class PermissionRepositoryImpl implements PermissionRepository {
                 this.permissionJpaRepository.findById(serviceId).orElseThrow(
                         () -> new NotFoundException("Permission not found")
                 );
+
+        return this.permissionMapper.toPermissionModel(permissionEntity);
+    }
+
+    @Override
+    public PermissionModel findPermissionFromServiceByUrlAndMethod(UUID serviceId, String url, String method){
+        List<PermissionEntity> permissionEntities =
+                this.permissionJpaRepository.searchFromServiceByUrlAndMethod(serviceId,url,method);
+
+        PermissionEntity permissionEntity = permissionEntities
+                .stream()
+                .findFirst()
+                .orElseThrow(() -> new NotFoundException("Permission not found"));
 
         return this.permissionMapper.toPermissionModel(permissionEntity);
     }

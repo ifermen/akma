@@ -1,6 +1,6 @@
 package com.ifermen.akma.application.mapper;
 
-import com.ifermen.akma.application.command.permission.CreatePermissionCommand;
+import com.ifermen.akma.application.dto.command.permission.CreatePermissionCommand;
 import com.ifermen.akma.domain.model.PermissionModel;
 import org.mapstruct.Mapper;
 

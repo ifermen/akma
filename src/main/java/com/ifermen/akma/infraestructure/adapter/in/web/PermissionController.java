@@ -1,6 +1,6 @@
 package com.ifermen.akma.infraestructure.adapter.in.web;
 
-import com.ifermen.akma.application.command.permission.CreatePermissionCommand;
+import com.ifermen.akma.application.dto.command.permission.CreatePermissionCommand;
 import com.ifermen.akma.application.port.in.permission.CreatePermissionUseCase;
 import com.ifermen.akma.application.port.in.permission.GetPermissionUseCase;
 import com.ifermen.akma.application.port.in.permission.ListPermissionUseCase;

@@ -1,7 +1,7 @@
 package com.ifermen.akma.infraestructure.adapter.in.web;
 
-import com.ifermen.akma.application.command.service.CreateServiceCommand;
-import com.ifermen.akma.application.command.service.UpdateServiceCommand;
+import com.ifermen.akma.application.dto.command.service.CreateServiceCommand;
+import com.ifermen.akma.application.dto.command.service.UpdateServiceCommand;
 import com.ifermen.akma.application.port.in.service.*;
 import com.ifermen.akma.domain.model.ServiceModel;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.service.CreateServiceRequest;

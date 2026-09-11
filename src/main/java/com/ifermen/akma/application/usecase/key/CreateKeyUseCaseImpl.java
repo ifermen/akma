@@ -1,20 +1,18 @@
 package com.ifermen.akma.application.usecase.key;
 
-import com.ifermen.akma.application.command.key.CreateKeyCommand;
+import com.ifermen.akma.application.dto.command.key.CreateKeyCommand;
 import com.ifermen.akma.application.exception.NotFoundException;
 import com.ifermen.akma.application.port.in.key.CreateKeyUseCase;
 import com.ifermen.akma.application.port.out.repository.KeyRepository;
 import com.ifermen.akma.application.port.out.repository.PermissionRepository;
 import com.ifermen.akma.application.port.out.repository.ServiceRepository;
+import com.ifermen.akma.application.port.out.service.BCryptHashingService;
 import com.ifermen.akma.domain.model.KeyModel;
 import com.ifermen.akma.domain.model.PermissionModel;
 import com.ifermen.akma.domain.model.ServiceModel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
 import java.util.HexFormat;
@@ -27,6 +25,7 @@ public class CreateKeyUseCaseImpl implements CreateKeyUseCase {
 
     private ServiceRepository serviceRepository;
     private PermissionRepository permissionRepository;
+    private BCryptHashingService bCryptHashingService;
     private KeyRepository keyRepository;
 
     //TODO: If already exist a key with same service, env and user, revoke the old one
@@ -48,7 +47,7 @@ public class CreateKeyUseCaseImpl implements CreateKeyUseCase {
         String keyPrefix = brand + secretPrefix;
 
         String key = brand + secret;
-        String keyHash = hash(key);
+        String keyHash = this.bCryptHashingService.hash(key);
 
         KeyModel keyModel = KeyModel.builder()
                 .env(env)
@@ -96,16 +95,5 @@ public class CreateKeyUseCaseImpl implements CreateKeyUseCase {
 
     private String getSecretPrefix(String secret){
         return secret.substring(0,10);
-    }
-
-    private String hash(String secret){
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            byte[] hashBytes = digest.digest(secret.getBytes(StandardCharsets.UTF_8));
-
-            return HexFormat.of().formatHex(hashBytes);
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

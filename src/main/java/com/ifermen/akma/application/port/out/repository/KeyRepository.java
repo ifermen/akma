@@ -9,4 +9,6 @@ public interface KeyRepository {
     KeyModel create(KeyModel keyModel);
 
     KeyModel addPermissions(KeyModel keyModel, List<PermissionModel> permissions);
+
+    List<KeyModel> findByPrefix(String prefix);
 }

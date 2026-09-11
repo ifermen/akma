@@ -27,6 +27,6 @@ public class PermissionEntity {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "permission")
-    private List<KeyPermissionEntity> keyPermissions;
+    //@OneToMany(mappedBy = "permission")
+    //private List<KeyPermissionEntity> keyPermissions;
 }

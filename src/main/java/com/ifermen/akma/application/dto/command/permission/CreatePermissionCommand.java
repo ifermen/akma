@@ -1,4 +1,4 @@
-package com.ifermen.akma.application.command.permission;
+package com.ifermen.akma.application.dto.command.permission;
 
 import lombok.Data;
 

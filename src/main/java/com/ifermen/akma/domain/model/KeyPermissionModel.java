@@ -8,5 +8,5 @@ public class KeyPermissionModel {
 
     private PermissionModel permission;
 
-    private KeyModel key;
+    //private KeyModel key;
 }

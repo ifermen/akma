@@ -22,9 +22,9 @@ public class ServiceEntity {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(mappedBy = "service")
-    private List<KeyEntity> keys;
+    //@OneToMany(mappedBy = "service")
+    //private List<KeyEntity> keys;
 
-    @OneToMany(mappedBy = "service")
-    private List<PermissionEntity> permissions;
+    //@OneToMany(mappedBy = "service")
+    //private List<PermissionEntity> permissions;
 }

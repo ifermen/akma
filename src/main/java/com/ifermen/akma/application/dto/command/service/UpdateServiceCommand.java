@@ -1,4 +1,4 @@
-package com.ifermen.akma.application.command.service;
+package com.ifermen.akma.application.dto.command.service;
 
 import lombok.Data;
 
