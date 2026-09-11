@@ -14,6 +14,8 @@ public interface ServiceRepository {
 
     ServiceModel findByName(String name);
 
+    ServiceModel findByAcronym(String acronym);
+
     ServiceModel update(ServiceModel service);
 
     void delete(ServiceModel serviceModel);

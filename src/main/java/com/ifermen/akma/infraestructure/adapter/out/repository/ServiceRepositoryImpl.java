@@ -63,6 +63,16 @@ public class ServiceRepositoryImpl implements ServiceRepository {
     }
 
     @Override
+    public ServiceModel findByAcronym(String acronym){
+        try{
+            ServiceEntity serviceEntity = this.serviceJpaRepository.findByAcronym(acronym).getFirst();
+            return serviceMapper.toServiceModel(serviceEntity);
+        }catch(NoSuchElementException e){
+            return null;
+        }
+    }
+
+    @Override
     public ServiceModel update(ServiceModel service){
         ServiceEntity serviceEntity = serviceMapper.toServiceEntity(service);
 

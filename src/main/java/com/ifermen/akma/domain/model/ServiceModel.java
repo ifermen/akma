@@ -12,6 +12,8 @@ public class ServiceModel {
 
     private String name;
 
+    private String acronym;
+
     private String description;
 
     public void generateRandomId(){

@@ -8,5 +8,6 @@ import java.util.UUID;
 public class UpdateServiceCommand {
     private UUID id;
     private String name;
+    private String acronym;
     private String description;
 }

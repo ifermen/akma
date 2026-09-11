@@ -5,10 +5,11 @@ import lombok.Data;
 
 import java.util.UUID;
 
-@JsonPropertyOrder(value = {"id", "name", "description"})
+@JsonPropertyOrder(value = {"id", "name", "acronym", "description"})
 @Data
 public class ServiceResponse {
     private UUID id;
     private String name;
+    private String acronym;
     private String description;
 }

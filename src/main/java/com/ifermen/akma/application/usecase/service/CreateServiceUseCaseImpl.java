@@ -21,9 +21,14 @@ public class CreateServiceUseCaseImpl implements CreateServiceUseCase {
 
         ServiceModel serviceModel = serviceMapperApplication.toServiceModel(createServiceCommand);
         serviceModel.setName(serviceModel.getName().toUpperCase().trim());
+        serviceModel.setAcronym(serviceModel.getAcronym().toUpperCase().trim());
 
         if(this.serviceRepository.findByName(serviceModel.getName()) != null){
             throw new ConfilctException("Service name already exists");
+        }
+
+        if(this.serviceRepository.findByAcronym(serviceModel.getAcronym()) != null){
+            throw new ConfilctException("Service acronym already exists");
         }
 
         serviceModel.generateRandomId();

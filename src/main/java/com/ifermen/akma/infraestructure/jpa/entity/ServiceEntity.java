@@ -16,6 +16,9 @@ public class ServiceEntity {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "acronym")
+    private String acronym;
+
     @Column(name = "description")
     private String description;
 

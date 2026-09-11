@@ -9,10 +9,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-public interface ServiceJpaRepository extends JpaRepository<ServiceEntity, Integer> {
+public interface ServiceJpaRepository extends JpaRepository<ServiceEntity, UUID> {
 
     @Query("SELECT s FROM ServiceEntity s WHERE s.name = :name")
     List<ServiceEntity> findByName(@Param("name") String name);
 
-    Optional<ServiceEntity> findById(@Param("id")UUID id);
+    @Query("SELECT s FROM ServiceEntity s WHERE s.acronym = :acronym")
+    List<ServiceEntity> findByAcronym(@Param("acronym") String acronym);
 }

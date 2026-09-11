@@ -18,21 +18,46 @@ public class UpdateServiceUseCaseImpl implements UpdateServiceUseCase {
     public ServiceModel execute(UpdateServiceCommand updateServiceCommand){
         ServiceModel serviceModel = this.serviceRepository.findById(updateServiceCommand.getId());
 
-        if(updateServiceCommand.getName() != null && !updateServiceCommand.getName().isBlank()){
-            if(!serviceModel.getName().equals(updateServiceCommand.getName().trim())){
-                if (this.serviceRepository.findByName(updateServiceCommand.getName()) != null){
+        updateName(serviceModel,updateServiceCommand.getName());
+        updateAcronym(serviceModel,updateServiceCommand.getAcronym());
+        updateDescription(serviceModel,updateServiceCommand.getDescription());
+
+        return serviceRepository.update(serviceModel);
+    }
+
+    private void updateName(ServiceModel serviceModel, String subject){
+        if(subject != null && !subject.isBlank()){
+
+            String name = subject.trim();
+
+            if(!serviceModel.getName().equals(name)){
+                if (this.serviceRepository.findByName(name) != null){
                     throw new ConfilctException("Service name already exists");
                 }
-                serviceModel.setName(updateServiceCommand.getName().trim());
+                serviceModel.setName(name);
             }
         }
+    }
 
-        if(updateServiceCommand.getDescription() != null){
-            serviceModel.setDescription(updateServiceCommand.getDescription().trim());
+    private void updateAcronym(ServiceModel serviceModel, String subject){
+        if(subject != null && !subject.isBlank()){
+
+            String acronym = subject.toUpperCase().trim();
+
+            if(!serviceModel.getAcronym().equals(acronym)){
+                if (this.serviceRepository.findByAcronym(acronym) != null){
+                    throw new ConfilctException("Service acronym already exists");
+                }
+                serviceModel.setAcronym(acronym);
+            }
+        }
+    }
+
+    private void updateDescription(ServiceModel serviceModel, String subject){
+        if(subject != null){
+            serviceModel.setDescription(subject.trim());
         }else{
             serviceModel.setDescription(null);
         }
-
-        return serviceRepository.update(serviceModel);
     }
 }
