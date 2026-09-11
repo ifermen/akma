@@ -38,10 +38,14 @@ public class CreateKeyUseCaseImpl implements CreateKeyUseCase {
 
         checkPermissionsFromService(service,permissions);
 
+        String brand = generateBrand(service.getAcronym(),createKeyCommand.getName());
+
         String secret = createSecret();
-        String key = addBrand(secret,createKeyCommand.getName());
-        String secretPrefix = getPrefix(secret);
-        String keyPrefix = addBrand(secretPrefix,createKeyCommand.getName());
+
+        String secretPrefix = getSecretPrefix(secret);
+        String keyPrefix = brand + secretPrefix;
+
+        String key = brand + secret;
         String keyHash = hash(key);
 
         KeyModel keyModel = KeyModel.builder()
@@ -84,13 +88,12 @@ public class CreateKeyUseCaseImpl implements CreateKeyUseCase {
         return HexFormat.of().formatHex(secretByte);
     }
 
-    //TODO: Change "akma" with a service identifier
-    private String addBrand(String secret, String name){
-        return "akma_" + name + "_" + secret;
+    private String generateBrand(String serviceAcronym, String name){
+        return serviceAcronym + "_" + name + "_";
     }
 
-    private String getPrefix(String key){
-        return key.substring(0,10);
+    private String getSecretPrefix(String secret){
+        return secret.substring(0,10);
     }
 
     private String hash(String secret){
