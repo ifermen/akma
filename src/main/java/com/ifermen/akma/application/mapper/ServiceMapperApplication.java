@@ -9,6 +9,4 @@ import org.mapstruct.Mapper;
 public interface ServiceMapperApplication {
 
     ServiceModel toServiceModel(CreateServiceCommand createServiceCommand);
-
-    ServiceModel toServiceModel(UpdateServiceCommand updateServiceCommand);
 }

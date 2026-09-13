@@ -15,4 +15,6 @@ public interface PermissionRepository {
     PermissionModel findById(UUID serviceId);
 
     PermissionModel findPermissionFromServiceByUrlAndMethod(UUID serviceId, String url, String method);
+
+    PermissionModel update(PermissionModel permissionModel);
 }

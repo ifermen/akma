@@ -65,4 +65,12 @@ public class PermissionRepositoryImpl implements PermissionRepository {
 
         return this.permissionMapper.toPermissionModel(permissionEntity);
     }
+
+    @Override
+    public PermissionModel update(PermissionModel permissionModel){
+        PermissionEntity permissionEntity = this.permissionMapper.toPermissionEntity(permissionModel);
+        PermissionEntity savedPermissionEntity = this.permissionJpaRepository.save(permissionEntity);
+
+        return this.permissionMapper.toPermissionModel(savedPermissionEntity);
+    }
 }

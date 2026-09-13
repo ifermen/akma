@@ -1,17 +1,21 @@
 package com.ifermen.akma.infraestructure.adapter.in.web;
 
 import com.ifermen.akma.application.dto.command.permission.CreatePermissionCommand;
+import com.ifermen.akma.application.dto.command.permission.UpdatePermissionCommand;
 import com.ifermen.akma.application.port.in.permission.CreatePermissionUseCase;
 import com.ifermen.akma.application.port.in.permission.GetPermissionUseCase;
 import com.ifermen.akma.application.port.in.permission.ListPermissionUseCase;
+import com.ifermen.akma.application.port.in.permission.UpdatePermissionUseCase;
 import com.ifermen.akma.domain.model.PermissionModel;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.CreatePermissionRequest;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.PermissionResponse;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.PermissionWithServiceResponse;
+import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.UpdatePermissionRequest;
 import com.ifermen.akma.infraestructure.apidoc.PermissionControllerDoc;
 import com.ifermen.akma.infraestructure.mapstruct.PermissionMapper;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +32,7 @@ public class PermissionController implements PermissionControllerDoc {
     private CreatePermissionUseCase createPermissionUseCase;
     private ListPermissionUseCase listPermissionUseCase;
     private GetPermissionUseCase getPermissionUseCase;
+    private UpdatePermissionUseCase updatePermissionUseCase;
 
     @PostMapping("/{idService}")
     @Override
@@ -65,5 +70,23 @@ public class PermissionController implements PermissionControllerDoc {
         PermissionWithServiceResponse permission = this.permissionMapper.toPermissionWithServiceResponse(permissionModel);
 
         return ResponseEntity.ok(permission);
+    }
+
+    @PutMapping("/{idService}/{idPermission}")
+    @Override
+    public ResponseEntity<PermissionWithServiceResponse> updatePermission(
+            @Param("idService") UUID idService,
+            @Param("idPermission") UUID idPermission,
+            @Valid @RequestBody UpdatePermissionRequest updatePermissionRequest){
+        UpdatePermissionCommand updatePermissionCommand =
+                this.permissionMapper.toUpdatePermissionCommand(updatePermissionRequest);
+        updatePermissionCommand.setServiceId(idService);
+        updatePermissionCommand.setPermissionId(idPermission);
+
+        PermissionModel permissionModel = this.updatePermissionUseCase.execute(updatePermissionCommand);
+        PermissionWithServiceResponse permissionWithServiceResponse =
+                this.permissionMapper.toPermissionWithServiceResponse(permissionModel);
+
+        return ResponseEntity.accepted().body(permissionWithServiceResponse);
     }
 }
