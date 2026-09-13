@@ -26,7 +26,7 @@ public interface PermissionControllerDoc {
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Creado",
                     content = @Content(schema = @Schema(implementation = PermissionWithServiceResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Error de validación",
+            @ApiResponse(responseCode = "400", description = "Error en la petición",
                     content = @Content(schema = @Schema(implementation = ApiErrorMessageList.class))),
             @ApiResponse(responseCode = "409", description = "Ya existe un permiso que coincide tanto en 'target' como en 'privilege'",
                     content = @Content(schema = @Schema(implementation = ApiError.class)))

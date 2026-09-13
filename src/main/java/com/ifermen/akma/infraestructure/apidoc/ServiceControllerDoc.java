@@ -25,7 +25,7 @@ public interface ServiceControllerDoc {
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Creado",
                     content = @Content(schema = @Schema(implementation = ServiceResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Error de validación",
+            @ApiResponse(responseCode = "400", description = "Error en la petición",
                     content = @Content(schema = @Schema(implementation = ApiErrorMessageList.class))),
             @ApiResponse(responseCode = "409", description = "Ya existe un servicio con el mismo nombre",
                     content = @Content(schema = @Schema(implementation = ApiError.class)))
@@ -54,7 +54,7 @@ public interface ServiceControllerDoc {
     @ApiResponses({
             @ApiResponse(responseCode = "202", description = "Actualizado",
                     content = @Content(schema = @Schema(implementation = ServiceResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Error de validación",
+            @ApiResponse(responseCode = "400", description = "Error en la petición",
                     content = @Content(schema = @Schema(implementation = ApiErrorMessageList.class))),
             @ApiResponse(responseCode = "404", description = "Servicio no encontrado",
                     content = @Content(schema = @Schema(implementation = ApiError.class))),

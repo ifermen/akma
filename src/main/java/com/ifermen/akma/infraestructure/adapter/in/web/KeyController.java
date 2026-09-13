@@ -10,6 +10,7 @@ import com.ifermen.akma.infraestructure.adapter.in.web.dto.key.CreateKeyRequest;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.key.KeyResponse;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.key.ValidateKeyRequest;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.key.ValidateKeyResponse;
+import com.ifermen.akma.infraestructure.apidoc.KeyControllerDoc;
 import com.ifermen.akma.infraestructure.mapstruct.KeyMapper;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -21,14 +22,18 @@ import java.util.UUID;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/keys")
-public class KeyController {
+public class KeyController implements KeyControllerDoc {
 
     private KeyMapper keyMapper;
     private CreateKeyUseCase createKeyUseCase;
     private ValidateRequestUseCase validateRequestUseCase;
 
     @PostMapping("/{serviceId}")
-    public ResponseEntity<KeyResponse> createKey(@PathVariable UUID serviceId,@Valid @RequestBody CreateKeyRequest createKeyRequest){
+    @Override
+    public ResponseEntity<KeyResponse> createKey(
+            @PathVariable UUID serviceId,
+            @Valid @RequestBody CreateKeyRequest createKeyRequest){
+
         CreateKeyCommand command = this.keyMapper.toCreateKeyCommand(createKeyRequest);
         command.setServiceId(serviceId);
 
@@ -40,6 +45,7 @@ public class KeyController {
     }
 
     @PostMapping("/{serviceId}/validate")
+    @Override
     public ResponseEntity<ValidateKeyResponse> validateRequest(
             @PathVariable UUID serviceId,
             @Valid @RequestBody ValidateKeyRequest validateKeyRequest){
