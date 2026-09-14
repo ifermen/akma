@@ -6,17 +6,13 @@ import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.CreatePerm
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.PermissionResponse;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.PermissionWithServiceResponse;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.UpdatePermissionRequest;
-import com.ifermen.akma.infraestructure.adapter.in.web.dto.service.ServiceResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -45,7 +41,7 @@ public interface PermissionControllerDoc {
     @Operation(summary = "Obtener un permiso", description = "Obtiene un permiso por su id y el id de su servicio")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "Obtenido",
-                    content = @Content(schema = @Schema(implementation = ServiceResponse.class))),
+                    content = @Content(schema = @Schema(implementation = PermissionWithServiceResponse.class))),
             @ApiResponse(responseCode = "400", description = "Error de formato de id",
                     content = @Content(schema = @Schema(implementation = ApiError.class))),
             @ApiResponse(responseCode = "404", description = "Permiso no encontrado o no perteneciente a ese servicio",
@@ -56,7 +52,7 @@ public interface PermissionControllerDoc {
     @Operation(summary = "Actualizar un permiso", description = "Actualiza un permiso")
     @ApiResponses({
             @ApiResponse(responseCode = "202", description = "Actualizado",
-                    content = @Content(schema = @Schema(implementation = ServiceResponse.class))),
+                    content = @Content(schema = @Schema(implementation = PermissionWithServiceResponse.class))),
             @ApiResponse(responseCode = "400", description = "Error en la petición",
                     content = @Content(schema = @Schema(implementation = ApiError.class))),
             @ApiResponse(responseCode = "404", description = "Permiso no encontrado",
@@ -70,11 +66,22 @@ public interface PermissionControllerDoc {
     @Operation(summary = "Borrar un permiso", description = "Borra de manera lógica un permiso")
     @ApiResponses({
             @ApiResponse(responseCode = "202", description = "Borrado",
-                    content = @Content(schema = @Schema(implementation = ServiceResponse.class))),
+                    content = @Content(schema = @Schema(implementation = PermissionWithServiceResponse.class))),
             @ApiResponse(responseCode = "400", description = "Error de formato de id",
                     content = @Content(schema = @Schema(implementation = ApiError.class))),
             @ApiResponse(responseCode = "404", description = "Permiso no encontrado",
                     content = @Content(schema = @Schema(implementation = ApiError.class)))
     })
     ResponseEntity<PermissionWithServiceResponse> deletePermission(UUID idService, UUID idPermission);
+
+    @Operation(summary = "Crear permisos bulk", description = "Crea varios permisos vinculado a un servicio")
+    @ApiResponses({
+            @ApiResponse(responseCode = "201", description = "Creado",
+                    content = @Content(schema = @Schema(implementation = PermissionResponse[].class))),
+            @ApiResponse(responseCode = "400", description = "Error en la petición",
+                    content = @Content(schema = @Schema(implementation = ApiErrorMessageList.class))),
+            @ApiResponse(responseCode = "409", description = "Ya existe un permiso que coincide tanto en 'target' como en 'privilege'",
+                    content = @Content(schema = @Schema(implementation = ApiError.class)))
+    })
+    ResponseEntity<List<PermissionResponse>> createPermissionBulk(UUID idService, List<CreatePermissionRequest> createPermissionRequests);
 }

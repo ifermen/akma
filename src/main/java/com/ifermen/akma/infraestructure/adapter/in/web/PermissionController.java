@@ -1,8 +1,6 @@
 package com.ifermen.akma.infraestructure.adapter.in.web;
 
-import com.ifermen.akma.application.dto.command.permission.CreatePermissionCommand;
-import com.ifermen.akma.application.dto.command.permission.DeletePermissionCommand;
-import com.ifermen.akma.application.dto.command.permission.UpdatePermissionCommand;
+import com.ifermen.akma.application.dto.command.permission.*;
 import com.ifermen.akma.application.port.in.permission.*;
 import com.ifermen.akma.domain.model.PermissionModel;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.CreatePermissionRequest;
@@ -13,7 +11,6 @@ import com.ifermen.akma.infraestructure.apidoc.PermissionControllerDoc;
 import com.ifermen.akma.infraestructure.mapstruct.PermissionMapper;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +29,7 @@ public class PermissionController implements PermissionControllerDoc {
     private GetPermissionUseCase getPermissionUseCase;
     private UpdatePermissionUseCase updatePermissionUseCase;
     private DeletePermissionUseCase deletePermissionUseCase;
+    private CreateBulkPermissionUseCase createBulkPermissionUseCase;
 
     @PostMapping("/{idService}")
     @Override
@@ -104,5 +102,28 @@ public class PermissionController implements PermissionControllerDoc {
                 this.permissionMapper.toPermissionWithServiceResponse(deletedPermissionModel);
 
         return ResponseEntity.accepted().body(permissionWithServiceResponse);
+    }
+
+    @PostMapping("/bulk/{idService}")
+    @Override
+    public ResponseEntity<List<PermissionResponse>> createPermissionBulk(
+            @PathVariable("idService") UUID idService,
+            @RequestBody List<CreatePermissionRequest> createPermissionRequests){
+
+        List<CreateBulkPermission> permissions =
+                createPermissionRequests
+                        .stream()
+                        .map(this.permissionMapper::toCreatePermissionForBulk)
+                        .toList();
+        ListCreateBulkPermissionCommand listCreateBulkPermissionCommand =
+                new ListCreateBulkPermissionCommand(idService,permissions);
+
+        List<PermissionModel> createdPermissions =
+                this.createBulkPermissionUseCase.execute(listCreateBulkPermissionCommand);
+
+        List<PermissionResponse> permissionResponses =
+                createdPermissions.stream().map(this.permissionMapper::toPermissionResponse).toList();
+
+        return ResponseEntity.status(201).body(permissionResponses);
     }
 }
