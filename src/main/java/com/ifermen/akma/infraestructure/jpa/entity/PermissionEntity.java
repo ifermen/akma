@@ -3,6 +3,7 @@ package com.ifermen.akma.infraestructure.jpa.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +27,9 @@ public class PermissionEntity {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "deleted_at")
+    private LocalDateTime deletedAt;
 
     //@OneToMany(mappedBy = "permission")
     //private List<KeyPermissionEntity> keyPermissions;

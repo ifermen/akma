@@ -4,6 +4,7 @@ import com.ifermen.akma.infraestructure.jpa.entity.KeyPermissionEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,6 +21,8 @@ public class PermissionModel {
     private ServiceModel service;
 
     private String description;
+
+    private LocalDateTime deletedAt;
 
     //private List<KeyPermissionEntity> keyPermissions;
 

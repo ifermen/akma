@@ -1,11 +1,9 @@
 package com.ifermen.akma.infraestructure.adapter.in.web;
 
 import com.ifermen.akma.application.dto.command.permission.CreatePermissionCommand;
+import com.ifermen.akma.application.dto.command.permission.DeletePermissionCommand;
 import com.ifermen.akma.application.dto.command.permission.UpdatePermissionCommand;
-import com.ifermen.akma.application.port.in.permission.CreatePermissionUseCase;
-import com.ifermen.akma.application.port.in.permission.GetPermissionUseCase;
-import com.ifermen.akma.application.port.in.permission.ListPermissionUseCase;
-import com.ifermen.akma.application.port.in.permission.UpdatePermissionUseCase;
+import com.ifermen.akma.application.port.in.permission.*;
 import com.ifermen.akma.domain.model.PermissionModel;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.CreatePermissionRequest;
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.permission.PermissionResponse;
@@ -33,6 +31,7 @@ public class PermissionController implements PermissionControllerDoc {
     private ListPermissionUseCase listPermissionUseCase;
     private GetPermissionUseCase getPermissionUseCase;
     private UpdatePermissionUseCase updatePermissionUseCase;
+    private DeletePermissionUseCase deletePermissionUseCase;
 
     @PostMapping("/{idService}")
     @Override
@@ -75,8 +74,8 @@ public class PermissionController implements PermissionControllerDoc {
     @PutMapping("/{idService}/{idPermission}")
     @Override
     public ResponseEntity<PermissionWithServiceResponse> updatePermission(
-            @Param("idService") UUID idService,
-            @Param("idPermission") UUID idPermission,
+            @PathVariable("idService") UUID idService,
+            @PathVariable("idPermission") UUID idPermission,
             @Valid @RequestBody UpdatePermissionRequest updatePermissionRequest){
         UpdatePermissionCommand updatePermissionCommand =
                 this.permissionMapper.toUpdatePermissionCommand(updatePermissionRequest);
@@ -86,6 +85,23 @@ public class PermissionController implements PermissionControllerDoc {
         PermissionModel permissionModel = this.updatePermissionUseCase.execute(updatePermissionCommand);
         PermissionWithServiceResponse permissionWithServiceResponse =
                 this.permissionMapper.toPermissionWithServiceResponse(permissionModel);
+
+        return ResponseEntity.accepted().body(permissionWithServiceResponse);
+    }
+
+    @DeleteMapping("/{idService}/{idPermission}")
+    @Override
+    public ResponseEntity<PermissionWithServiceResponse> deletePermission(
+            @PathVariable("idService") UUID idService,
+            @PathVariable("idPermission") UUID idPermission){
+
+        DeletePermissionCommand deletePermissionCommand = new DeletePermissionCommand();
+        deletePermissionCommand.setIdService(idService);
+        deletePermissionCommand.setIdPermission(idPermission);
+
+        PermissionModel deletedPermissionModel = this.deletePermissionUseCase.execute(deletePermissionCommand);
+        PermissionWithServiceResponse permissionWithServiceResponse =
+                this.permissionMapper.toPermissionWithServiceResponse(deletedPermissionModel);
 
         return ResponseEntity.accepted().body(permissionWithServiceResponse);
     }

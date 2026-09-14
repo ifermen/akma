@@ -16,10 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -58,7 +55,7 @@ public interface PermissionControllerDoc {
 
     @Operation(summary = "Actualizar un permiso", description = "Actualiza un permiso")
     @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Actualizado",
+            @ApiResponse(responseCode = "202", description = "Actualizado",
                     content = @Content(schema = @Schema(implementation = ServiceResponse.class))),
             @ApiResponse(responseCode = "400", description = "Error en la petición",
                     content = @Content(schema = @Schema(implementation = ApiError.class))),
@@ -69,4 +66,15 @@ public interface PermissionControllerDoc {
             UUID idService,
             UUID idPermission,
             UpdatePermissionRequest updatePermissionRequest);
+
+    @Operation(summary = "Borrar un permiso", description = "Borra de manera lógica un permiso")
+    @ApiResponses({
+            @ApiResponse(responseCode = "202", description = "Borrado",
+                    content = @Content(schema = @Schema(implementation = ServiceResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Error de formato de id",
+                    content = @Content(schema = @Schema(implementation = ApiError.class))),
+            @ApiResponse(responseCode = "404", description = "Permiso no encontrado",
+                    content = @Content(schema = @Schema(implementation = ApiError.class)))
+    })
+    ResponseEntity<PermissionWithServiceResponse> deletePermission(UUID idService, UUID idPermission);
 }
