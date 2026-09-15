@@ -15,6 +15,7 @@ import com.ifermen.akma.domain.model.ServiceModel;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -59,6 +60,11 @@ public class ValidateKeyUseCaseImpl implements ValidateRequestUseCase {
                 .anyMatch(kp -> kp
                         .getPermission().equals(permission)
                 );
+
+        if(valid){
+            match.setLastUsedAt(LocalDateTime.now());
+            this.keyRepository.update(match);
+        }
 
         return ValidateRequestResult
                 .builder()
