@@ -1,37 +1,16 @@
--- phpMyAdmin SQL Dump
--- version 5.2.2
--- https://www.phpmyadmin.net/
---
--- Servidor: db
--- Tiempo de generación: 26-08-2026 a las 21:54:22
--- Versión del servidor: 8.1.0
--- Versión de PHP: 8.2.27
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8mb4 */;
 
---
--- Base de datos: `akma`
---
-CREATE DATABASE IF NOT EXISTS `akma` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE `akma`;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `KEY`
---
-
-CREATE TABLE `KEY` (
+CREATE TABLE `API_KEY` (
   `id` binary(16) NOT NULL,
-  `name` varchar(100) NOT NULL,
+  `env` varchar(3) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `service_id` binary(16) NOT NULL,
   `user_id` binary(16) NOT NULL,
   `key_hash` varchar(255) NOT NULL,
@@ -40,97 +19,55 @@ CREATE TABLE `KEY` (
   `revoked_at` date DEFAULT NULL,
   `last_used_at` date DEFAULT NULL,
   `created_at` date NOT NULL,
-  `updated_at` date NOT NULL
+  `updated_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `KEY_PERMISSION`
---
 
 CREATE TABLE `KEY_PERMISSION` (
   `key_id` binary(16) NOT NULL,
   `permission_id` binary(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `PERMISSION`
---
-
 CREATE TABLE `PERMISSION` (
   `id` binary(16) NOT NULL,
-  `target` varchar(100) NOT NULL,
-  `privilege` varchar(100) NOT NULL,
+  `url` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `method` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `service_id` binary(16) NOT NULL,
-  `description` varchar(255) NOT NULL
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `deleted_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `SERVICE`
---
 
 CREATE TABLE `SERVICE` (
   `id` binary(16) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `description` varchar(255) NOT NULL
+  `acronym` varchar(3) NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
---
--- Índices para tablas volcadas
---
 
---
--- Indices de la tabla `KEY`
---
-ALTER TABLE `KEY`
+ALTER TABLE `API_KEY`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `FK_KEY_SERVICE` (`service_id`);
+  ADD KEY `FK_KEY_SERVICE` (`service_id`),
+  ADD KEY `key_prefix` (`key_prefix`);
 
---
--- Indices de la tabla `KEY_PERMISSION`
---
 ALTER TABLE `KEY_PERMISSION`
   ADD PRIMARY KEY (`key_id`,`permission_id`),
   ADD KEY `FK_Permission` (`permission_id`);
 
---
--- Indices de la tabla `PERMISSION`
---
 ALTER TABLE `PERMISSION`
   ADD PRIMARY KEY (`id`),
   ADD KEY `FK_PERMISSION_SERVICE` (`service_id`);
 
---
--- Indices de la tabla `SERVICE`
---
 ALTER TABLE `SERVICE`
   ADD PRIMARY KEY (`id`);
 
---
--- Restricciones para tablas volcadas
---
 
---
--- Filtros para la tabla `KEY`
---
-ALTER TABLE `KEY`
+ALTER TABLE `API_KEY`
   ADD CONSTRAINT `FK_KEY_SERVICE` FOREIGN KEY (`service_id`) REFERENCES `SERVICE` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Filtros para la tabla `KEY_PERMISSION`
---
 ALTER TABLE `KEY_PERMISSION`
-  ADD CONSTRAINT `FK_Key` FOREIGN KEY (`key_id`) REFERENCES `KEY` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_Key` FOREIGN KEY (`key_id`) REFERENCES `API_KEY` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_Permission` FOREIGN KEY (`permission_id`) REFERENCES `PERMISSION` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
---
--- Filtros para la tabla `PERMISSION`
---
 ALTER TABLE `PERMISSION`
   ADD CONSTRAINT `FK_PERMISSION_SERVICE` FOREIGN KEY (`service_id`) REFERENCES `SERVICE` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
