@@ -1,4 +1,4 @@
-package com.ifermen.akma.application.port.out.service;
+package com.ifermen.akma.domain.service;
 
 public interface BCryptHashingService {
     String hash(String secret);

@@ -6,7 +6,7 @@ import com.ifermen.akma.application.port.in.key.CreateKeyUseCase;
 import com.ifermen.akma.application.port.out.repository.KeyRepository;
 import com.ifermen.akma.application.port.out.repository.PermissionRepository;
 import com.ifermen.akma.application.port.out.repository.ServiceRepository;
-import com.ifermen.akma.application.port.out.service.BCryptHashingService;
+import com.ifermen.akma.domain.service.BCryptHashingService;
 import com.ifermen.akma.domain.model.KeyModel;
 import com.ifermen.akma.domain.model.PermissionModel;
 import com.ifermen.akma.domain.model.ServiceModel;
@@ -38,6 +38,8 @@ public class CreateKeyUseCaseImpl implements CreateKeyUseCase {
         checkPermissionsFromService(service,permissions);
 
         String env = createKeyCommand.getEnv().toUpperCase().trim();
+
+        revokeOldKey(createKeyCommand.getServiceId(), env, createKeyCommand.getUserId());
 
         String brand = generateBrand(service.getAcronym(),env);
 
@@ -95,5 +97,15 @@ public class CreateKeyUseCaseImpl implements CreateKeyUseCase {
 
     private String getSecretPrefix(String secret){
         return secret.substring(0,10);
+    }
+
+    private void revokeOldKey(UUID serviceId, String env, UUID userId){
+        List<KeyModel> olds = this.keyRepository.searchByServiceIdEnvUserIdAndRevokeAtNull(serviceId, env, userId);
+
+        olds.forEach(k -> {
+            k.setRevokeAt(LocalDateTime.now());
+
+            this.keyRepository.update(k);
+        });
     }
 }

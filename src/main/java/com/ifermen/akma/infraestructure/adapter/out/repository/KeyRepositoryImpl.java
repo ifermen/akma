@@ -17,6 +17,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 @AllArgsConstructor
@@ -64,5 +65,21 @@ public class KeyRepositoryImpl implements KeyRepository {
         List<KeyEntity> keys = this.keyJpaRepository.findByPrefix(prefix);
 
         return keys.stream().map(keyMapper::toKeyModel).toList();
+    }
+
+    @Override
+    public KeyModel update(KeyModel keyModel){
+        KeyEntity keyEntity = this.keyMapper.toKeyEntity(keyModel);
+        KeyEntity updated = this.keyJpaRepository.save(keyEntity);
+
+        return this.keyMapper.toKeyModel(updated);
+    }
+
+    @Override
+    public List<KeyModel> searchByServiceIdEnvUserIdAndRevokeAtNull(UUID serviceId, String env, UUID userId){
+        List<KeyEntity> keyEntities =
+                this.keyJpaRepository.searchByServiceIdEnvUserIdAndRevokeAtNull(serviceId, env, userId);
+
+        return keyEntities.stream().map(this.keyMapper::toKeyModel).toList();
     }
 }

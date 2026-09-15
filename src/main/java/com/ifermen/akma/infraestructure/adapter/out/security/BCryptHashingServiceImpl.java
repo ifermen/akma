@@ -1,6 +1,6 @@
 package com.ifermen.akma.infraestructure.adapter.out.security;
 
-import com.ifermen.akma.application.port.out.service.BCryptHashingService;
+import com.ifermen.akma.domain.service.BCryptHashingService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 

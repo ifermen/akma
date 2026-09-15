@@ -10,6 +10,7 @@ import com.ifermen.akma.infraestructure.adapter.in.web.dto.key.ValidateKeyReques
 import com.ifermen.akma.infraestructure.adapter.in.web.dto.key.ValidateKeyResponse;
 import com.ifermen.akma.infraestructure.jpa.entity.KeyEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface KeyMapper {
@@ -18,6 +19,7 @@ public interface KeyMapper {
 
     KeyResponse toKeyResponse(KeyModel keyModel);
 
+    @Mapping(target = "keyPermissions", ignore = true)
     KeyEntity toKeyEntity(KeyModel keyModel);
 
     KeyModel toKeyModel(KeyEntity keyEntity);
